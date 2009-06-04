@@ -1,9 +1,9 @@
-% MATLAB File : EnoDerivativePeriodic.m
-% [d] = EnoDerivativePeriodic(x,y,k,interval)
+% MATLAB File : EnoStencilPeriodic.m
+% [stencil,{r}] = EnoDerivativePeriodic(x,y,k,interval)
 %
-% * Creation Date : 2009-06-03
+% * Creation Date : 2009-06-04
 %
-% * Last Modified : Thu 04 Jun 2009 04:01:37 PM EDT
+% * Last Modified : Thu 04 Jun 2009 03:47:34 PM EDT
 %
 % * Created By : Akil Narayan
 %
@@ -12,8 +12,12 @@
 %   the least oscillatory stencil for k-th order differentiation. k must be
 %   greater than 0. interval is a 2-vector specifying the periodicity of the
 %   interval.
+%   
+%   The output stencil is the finite-difference stencil used for computing
+%   divided differences, and the optional output r is the interval shift
+%   relative to `default' differentiation interval.
 
-function[d] = EnoDerivativePeriodic(x,y,k,interval)
+function[stencil,varargout] = EnoDerivativePeriodic(x,y,k,interval)
 
 global common;
 prevpath = addpaths(common.FiniteDifference);
@@ -34,8 +38,6 @@ YGhost = [y(n-k+1:n); ...
 NegativeCount = zeros([n,1],'int8');
 PositiveCount = zeros([n,1],'int8');
 differences = YGhost;
-dd = zeros([n+2*k,k+1]);
-dd(:,1) = YGhost;
 % These are indices for the differences vector, which has a dynamic size
 LeftIndices = int8((k:(k+n-1)).');
 RightIndices = int8(((k+1):(k+n)).');
@@ -47,7 +49,6 @@ for q = 1:k
   RightX = XGhost((q+1):n+2*k);
   LeftX = XGhost(1:(n+2*k-q));
   differences = diff(differences)./(RightX-LeftX);
-  dd(1:(n+2*k-q),q+1) = differences;
 
   % Iterate Positive/NegativeCount by doing horrible implicit typecasting
   inds = abs(differences(LeftIndices))<=abs(differences(RightIndices));
@@ -63,20 +64,4 @@ r = zeros([n,1],'int8');
 r = PositiveCount-NegativeCount + mod(k,2);
 [stencil,StencilPeriodicity] = DifferenceStencil(n,k,r,true);
 
-% Compute x values
-XInput = x(stencil);
-inds = StencilPeriodicity==1;
-% For indices that wrap down to 1:
-XInput(inds) = xmax + (XInput(inds) - xmin);
-
-inds = StencilPeriodicity==-1;
-% For indices that wrap up to n:
-XInput(inds) = xmin - (xmax - XInput(inds));
-
-% Use stencil to compute interpolants
-dd = DividedDifference(XInput.',y(stencil.'));
-
-% Differentiate and evaluate the interpolants
-d = NewtonDiffEval(XInput.',dd).';
-
-path(prevpath);
+varargout{1} = r;
