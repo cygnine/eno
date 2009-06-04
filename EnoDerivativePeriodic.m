@@ -3,7 +3,7 @@
 %
 % * Creation Date : 2009-06-03
 %
-% * Last Modified : Thu 04 Jun 2009 04:01:37 PM EDT
+% * Last Modified : Thu 04 Jun 2009 06:55:03 PM EDT
 %
 % * Created By : Akil Narayan
 %
@@ -60,7 +60,7 @@ end
 
 % Stencil shifts relative to `default' stencil
 r = zeros([n,1],'int8');
-r = PositiveCount-NegativeCount + mod(k,2);
+r = (PositiveCount-NegativeCount + mod(k,2))/2;
 [stencil,StencilPeriodicity] = DifferenceStencil(n,k,r,true);
 
 % Compute x values
