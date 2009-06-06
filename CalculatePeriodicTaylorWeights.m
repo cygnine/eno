@@ -1,9 +1,9 @@
-% MATLAB File : CalculatePeriodicWenoWeights.m
+% MATLAB File : CalculatePeriodicTaylorWeights.m
 % [Dks] = CalculatePeriodicTaylorWeights(x,k,interval)
 %
 % * Creation Date : 2009-06-04
 %
-% * Last Modified : Fri 05 Jun 2009 10:47:09 PM EDT
+% * Last Modified : Sat 06 Jun 2009 02:57:36 PM EDT
 %
 % * Created By : Akil Narayan
 %
@@ -13,7 +13,7 @@
 %   Although the weights are indeed calculated, this goes ahead and returns the
 %   affinely mapped k-th order differentiation matrices.
 
-function[Dks] = CalculatePeriodicTaylorWeights(x,k,interval)
+function[Dks,ds] = CalculatePeriodicTaylorWeights(x,k,interval)
 
 global common;
 prevpath = addpaths(common.FiniteDifference.base);
@@ -82,8 +82,8 @@ else
   ds(:,k+1-PositiveCount) = 1 - sum(ds(:,setdiff(1:(k+1),k+1-PositiveCount)),2);
 end
 
-for q = 1:(k+1)
-  Dks{q} = diag(ds(:,q))*Dks{q};
-end
+%for q = 1:(k+1)
+%  Dks{q} = diag(ds(:,q))*Dks{q};
+%end
 
 path(prevpath);

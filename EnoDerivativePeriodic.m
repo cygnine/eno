@@ -3,7 +3,7 @@
 %
 % * Creation Date : 2009-06-03
 %
-% * Last Modified : Thu 04 Jun 2009 06:55:03 PM EDT
+% * Last Modified : Sat 06 Jun 2009 03:43:38 PM EDT
 %
 % * Created By : Akil Narayan
 %
@@ -16,7 +16,8 @@
 function[d] = EnoDerivativePeriodic(x,y,k,interval)
 
 global common;
-prevpath = addpaths(common.FiniteDifference);
+prevpath = addpaths(common.FiniteDifference.base,...
+                    common.bases.d1.newton.base);
 
 n = length(x);
 xmin = interval(1); xmax = interval(2);
@@ -31,14 +32,14 @@ YGhost = [y(n-k+1:n); ...
      y(1:k)];
 
 % Chooses stencils in the same fashion as common/FiniteDifference/DifferenceStencil (r=0)
-NegativeCount = zeros([n,1],'int8');
-PositiveCount = zeros([n,1],'int8');
+NegativeCount = zeros([n,1],'int32');
+PositiveCount = zeros([n,1],'int32');
 differences = YGhost;
 dd = zeros([n+2*k,k+1]);
 dd(:,1) = YGhost;
 % These are indices for the differences vector, which has a dynamic size
-LeftIndices = int8((k:(k+n-1)).');
-RightIndices = int8(((k+1):(k+n)).');
+LeftIndices = int32((k:(k+n-1)).');
+RightIndices = int32(((k+1):(k+n)).');
 % The strategy here is (surprise) inefficient: computing divided differences
 % only to choose stencil.
 % TODO: Cherry-pick differences as needed: will make things *much* faster.
@@ -51,15 +52,15 @@ for q = 1:k
 
   % Iterate Positive/NegativeCount by doing horrible implicit typecasting
   inds = abs(differences(LeftIndices))<=abs(differences(RightIndices));
-  NegativeCount = NegativeCount + int8(inds);
-  LeftIndices = LeftIndices - int8(inds);
+  NegativeCount = NegativeCount + int32(inds);
+  LeftIndices = LeftIndices - int32(inds);
   inds = not(inds);
-  PositiveCount = PositiveCount + int8(inds);
+  PositiveCount = PositiveCount + int32(inds);
   %RightIndices = RightIndices + inds;
 end
 
 % Stencil shifts relative to `default' stencil
-r = zeros([n,1],'int8');
+r = zeros([n,1],'int32');
 r = (PositiveCount-NegativeCount + mod(k,2))/2;
 [stencil,StencilPeriodicity] = DifferenceStencil(n,k,r,true);
 
