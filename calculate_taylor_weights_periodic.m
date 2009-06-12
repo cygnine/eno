@@ -1,9 +1,9 @@
-% MATLAB File : CalculatePeriodicTaylorWeights.m
-% [Dks] = CalculatePeriodicTaylorWeights(x,k,interval)
+% MATLAB File : calculate_taylor_weights_periodic.m
+% [Dks,ds] = calculate_taylor_weights_periodic(x,k,interval)
 %
 % * Creation Date : 2009-06-04
 %
-% * Last Modified : Sat 06 Jun 2009 02:57:36 PM EDT
+% * Last Modified : Fri 12 Jun 2009 03:23:22 PM EDT
 %
 % * Created By : Akil Narayan
 %
@@ -13,7 +13,7 @@
 %   Although the weights are indeed calculated, this goes ahead and returns the
 %   affinely mapped k-th order differentiation matrices.
 
-function[Dks,ds] = CalculatePeriodicTaylorWeights(x,k,interval)
+function[Dks,ds] = calculate_taylor_weights_periodic(x,k,interval)
 
 global common;
 prevpath = addpaths(common.FiniteDifference.base);
@@ -22,7 +22,7 @@ prevpath = addpaths(common.FiniteDifference.base);
 % given the (2k)th and k-th order expansion coefficients. 
 
 % The (2k)th coeffs
-D2k = DerivativeMatrixPeriodic(x,2*k,interval);
+D2k = derivative_matrix_periodic(x,2*k,interval);
 if mod(k,2)==0
   shifts = -(k/2):(k/2);
 else
@@ -33,7 +33,7 @@ end
 Dks = {};
 rcount = 1;
 for r = shifts
-  Dks{rcount} = DerivativeMatrixPeriodic(x,k,interval,r);
+  Dks{rcount} = derivative_matrix_periodic(x,k,interval,r);
   rcount = rcount + 1;
 end
 

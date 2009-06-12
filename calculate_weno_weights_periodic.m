@@ -1,8 +1,9 @@
-% MATLAB File : CalculatePeriodicWenoWeights.m
+% MATLAB File : calculate_weno_weights_periodic.m
+% [Dks,betas,ds] = calculate_weno_weights_periodic(x,u,k,interval)
 %
 % * Creation Date : 2009-06-05
 %
-% * Last Modified : Sat 06 Jun 2009 03:39:53 PM EDT
+% * Last Modified : Fri 12 Jun 2009 03:29:29 PM EDT
 %
 % * Created By : Akil Narayan
 %
@@ -14,12 +15,12 @@
 %   connections that can be utilized when computing betas for a different vector
 %   u.
 
-function[Dks,betas,ds] = CalculatePeriodicWenoWeights(x,u,k,interval)
+function[Dks,betas,ds] = calculate_weno_weights_periodic(x,u,k,interval)
 
 global common;
 prevpath = addpaths(common.bases.d1.newton.base);
 
-[Dks,ds] = CalculatePeriodicTaylorWeights(x,k,interval);
+[Dks,ds] = calculate_taylor_weights_periodic(x,k,interval);
 
 n = length(x);
 inds = zeros([k+1,n]);
@@ -37,9 +38,9 @@ inds = mod(inds-1,n)+1;
 xinterp = x(inds);
 xinterp(PositiveFlag) = xinterp(PositiveFlag) + (interval(2) - interval(1));
 xinterp(NegativeFlag) = xinterp(NegativeFlag) - (interval(2) - interval(1));
-nc = DividedDifference(xinterp,u(inds));
+nc = divided_difference(xinterp,u(inds));
 
-[betas] = SobolevIndicators(nc,xinterp,xinterp([1,k+1],:),ds).';
+[betas] = sobolev_indicators(nc,xinterp,xinterp([1,k+1],:),ds).';
 
 path(prevpath);
 

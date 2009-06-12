@@ -1,9 +1,9 @@
-% MATLAB File : SobolevIndicators.m
-% [betas] = SobolevIndicators(nc,x,interval,ds)
+% MATLAB File : sobolev_indicators.m
+% [BetaMatrix] = sobolev_indicators(nc,x,interval,ds);
 %
 % * Creation Date : 2009-06-05
 %
-% * Last Modified : Sat 06 Jun 2009 03:02:29 PM EDT
+% * Last Modified : Fri 12 Jun 2009 03:45:57 PM EDT
 %
 % * Created By : Akil Narayan
 %
@@ -14,7 +14,7 @@
 %   CalculatePeriodicTaylorWeights: they are the linear Taylor relations
 %   connecting lower-order Taylor expandsions to higher-order expansions
 
-function[BetaMatrix] = SobolevIndicators(nc,x,interval,ds);
+function[BetaMatrix] = sobolev_indicators(nc,x,interval,ds);
 
 epsilon = 1e-6;  % tolerance
 
@@ -29,11 +29,11 @@ betas = zeros([1,C]);
 dx = diff(interval,[],1);
 dx2 = dx.^2;
 
-mc = NewtonToMonomial(nc,x);
+mc = newton_to_monomial(nc,x);
 
 for l = 1:k;
-  mc = MonomialDerivative(mc);
-  betas = betas + dx.*MonomialIntegrate(MonomialSquare(mc),interval);
+  mc = monomial_derivative(mc);
+  betas = betas + dx.*monomial_integrate(monomial_square(mc),interval);
   dx = dx.*dx2;
 end
 

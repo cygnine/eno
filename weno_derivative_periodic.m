@@ -1,8 +1,9 @@
-% MATLAB File : WenoDerivativePeriodic.m
+% MATLAB File : weno_derivative_periodic.m
+% [du,{Dks,ds}] = weno_derivative_periodic(x,u,k,interval)
 %
 % * Creation Date : 2009-06-06
 %
-% * Last Modified : Sat 06 Jun 2009 03:41:06 PM EDT
+% * Last Modified : Fri 12 Jun 2009 03:47:00 PM EDT
 %
 % * Created By : Akil Narayan
 %
@@ -21,9 +22,9 @@
 % indicators needed to form a differentiation approximation with a different
 % function u on the same mesh.
 
-function[du,varargout] = WenoDerivativePeriodic(x,u,k,interval)
+function[du,varargout] = weno_derivative_periodic(x,u,k,interval)
 
-[Dks,betas,ds] = CalculatePeriodicWenoWeights(x,u,k,interval);
+[Dks,betas,ds] = calculate_weno_weights_periodic(x,u,k,interval);
 
 N = length(u);
 du = zeros([N,1]);

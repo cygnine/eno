@@ -1,9 +1,9 @@
-% MATLAB File : EnoDerivativePeriodic.m
-% [d] = EnoDerivativePeriodic(x,y,k,interval)
+% MATLAB File : eno_derivative_periodic.m
+% [d] = eno_derivative_periodic(x,y,k,interval)
 %
 % * Creation Date : 2009-06-03
 %
-% * Last Modified : Sat 06 Jun 2009 03:43:38 PM EDT
+% * Last Modified : Fri 12 Jun 2009 03:31:03 PM EDT
 %
 % * Created By : Akil Narayan
 %
@@ -13,7 +13,7 @@
 %   greater than 0. interval is a 2-vector specifying the periodicity of the
 %   interval.
 
-function[d] = EnoDerivativePeriodic(x,y,k,interval)
+function[d] = eno_derivative_periodic(x,y,k,interval)
 
 global common;
 prevpath = addpaths(common.FiniteDifference.base,...
@@ -62,22 +62,22 @@ end
 % Stencil shifts relative to `default' stencil
 r = zeros([n,1],'int32');
 r = (PositiveCount-NegativeCount + mod(k,2))/2;
-[stencil,StencilPeriodicity] = DifferenceStencil(n,k,r,true);
+[stencil,stencil_periodicity] = difference_stencil(n,k,r,true);
 
 % Compute x values
 XInput = x(stencil);
-inds = StencilPeriodicity==1;
+inds = stencil_periodicity==1;
 % For indices that wrap down to 1:
 XInput(inds) = xmax + (XInput(inds) - xmin);
 
-inds = StencilPeriodicity==-1;
+inds = stencil_periodicity==-1;
 % For indices that wrap up to n:
 XInput(inds) = xmin - (xmax - XInput(inds));
 
 % Use stencil to compute interpolants
-dd = DividedDifference(XInput.',y(stencil.'));
+dd = divided_difference(XInput.',y(stencil.'));
 
 % Differentiate and evaluate the interpolants
-d = NewtonDiffEval(XInput.',dd).';
+d = newton_derivative_evaluate(XInput.',dd).';
 
 path(prevpath);
