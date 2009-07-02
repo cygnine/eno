@@ -12,7 +12,7 @@ x = x(1:N).';
 
 for k=ks
   D2k = fd.derivative_matrix_periodic(x,2*k-1,interval,ones(size(x)));
-  [Dks,ds] = eno.calculate_taylor_weights_periodic(x,k,interval);
+  [Dks,ds] = eno.taylor_weights_periodic(x,k,interval);
 
   error = full(D2k);
   for q = 1:k
