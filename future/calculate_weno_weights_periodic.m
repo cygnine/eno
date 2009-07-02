@@ -1,21 +1,13 @@
-% MATLAB File : calculate_weno_weights_periodic.m
-% [Dks,betas,ds] = calculate_weno_weights_periodic(x,u,k,interval)
-%
-% * Creation Date : 2009-06-05
-%
-% * Last Modified : Fri 12 Jun 2009 03:29:29 PM EDT
-%
-% * Created By : Akil Narayan
-%
-% * Purpose : Given the grid x and the finite-difference values u, computes the
-%   required WENO Taylor weights and Sobolev Indicators. Returns everything
-%   separately: the Dks are the individual unweighted lower-order Taylor
-%   differentiation matrices, the betas are the already-scaled weights ready for
-%   application for these values of u, and the ds are the unscaled Taylor-Taylor
-%   connections that can be utilized when computing betas for a different vector
-%   u.
-
 function[Dks,betas,ds] = calculate_weno_weights_periodic(x,u,k,interval)
+% [DKS,BETAS,DS] = CALCULATE_WENO_WEIGHTS_PERIODIC(X,U,K,INTERVAL)
+
+%   Given the grid X and the finite-difference values U, computes the
+%   required WENO Taylor weights and Sobolev Indicators. Returns everything
+%   separately: the DKS are the individual unweighted lower-order Taylor
+%   differentiation matrices, the BETAS are the already-scaled weights ready for
+%   application for these values of U, and the DS are the unscaled Taylor-Taylor
+%   connections that can be utilized when computing betas for a different vector
+%   U.
 
 global common;
 prevpath = addpaths(common.bases.d1.newton.base);

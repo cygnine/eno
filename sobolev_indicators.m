@@ -1,20 +1,12 @@
-% MATLAB File : sobolev_indicators.m
-% [BetaMatrix] = sobolev_indicators(nc,x,interval,ds);
-%
-% * Creation Date : 2009-06-05
-%
-% * Last Modified : Fri 12 Jun 2009 03:45:57 PM EDT
-%
-% * Created By : Akil Narayan
-%
-% * Purpose : Given Newton polynomial modal coefficients (nc) defining
-%   polynomials with basis functions given by the Newton nodal locations (x),
-%   computes the highest nontrivial Sobolev norm over the specified interval
-%   (interval). The inputs (ds) are the outputs from
-%   CalculatePeriodicTaylorWeights: they are the linear Taylor relations
-%   connecting lower-order Taylor expandsions to higher-order expansions
-
 function[BetaMatrix] = sobolev_indicators(nc,x,interval,ds);
+% [BETAMATRIX] = SOBOLEV_INDICATORS(NC,X,INTERVAL,DS)
+%
+%     Given Newton polynomial modal coefficients (nc) defining polynomials with
+%     basis functions given by the Newton nodal locations (x), computes the
+%     highest nontrivial Sobolev norm over the specified interval (interval).
+%     The inputs (ds) are the outputs from CalculatePeriodicTaylorWeights: they
+%     are the linear Taylor relations connecting lower-order Taylor expandsions
+%     to higher-order expansions
 
 epsilon = 1e-6;  % tolerance
 
