@@ -100,7 +100,7 @@ else
   r = (PositiveCount-NegativeCount+1)/2;
 end
 
-[stencil,StencilPeriodicity] = fd.difference_stencil(n,k,r,true);
+[stencil,StencilPeriodicity] = fd.difference_stencil(n,k,'r',r,'periodic',true);
 
 varargout{1} = StencilPeriodicity;
 varargout{2} = r;

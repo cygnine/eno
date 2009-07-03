@@ -1,24 +1,29 @@
-function[u] = eno_interpolant_periodic(x,y,z,interval,varargin)
-% [U] = ENO_INTERPOLANT_PERIODIC(X,Y,Z,INTERVAL,{K})
-%     Interpolates the data set (X,Y) using a piecewise K-th order polynomial
-%     using the ENO stencil choosing rubric. Due to the fact that we allow the
-%     nodes X to be non-equisdistant, this is not a true ENO procedure since the
-%     interpolant does not preserve the L^1 norm. The default is k=3.
+function[u] = eno_derivative_periodic(x,y,z,interval,varargin)
+% [U] = ENO_DERIVATIVE_PERIODIC(X,Y,Z,INTERVAL,{K})
+%
+%     Computes the derivative of the ENO interpolant at the nodal locations Z.
+%     See ENO_INTERPOLANT_PERIODIC. Interpolates the data set (X,Y) using a
+%     piecewise K-th order polynomial using the ENO stencil-choosing rubric,
+%     takes the derivative, and evaluates at the points Z. We allow X to be
+%     non-equispaced.  The default is K=3.
 % 
 %     This is a periodic extension, so the 2-vector INTERVAL specifying the
 %     domain is required. The nodal vector X needs to be sorted, but need not
-%     contain nodes at the boundaries. The interpolant is computed and evaluated
-%     at the points Z.
+%     contain nodes at the boundaries. 
 
 global handles;
 cm = handles.common;
 eno = handles.eno;
 newton = handles.bases.NewtonPolynomials;
 
+% Force column vector
+x = x(:);
+y = y(:);
+
 opt = cm.InputSchema({'k'}, {3},[],varargin{:});
 k = opt.k;
 
-[stencil,stencil_periodicity] = eno.eno_fd_stencil_periodic(x,y,interval,k);
+[stencil,stencil_periodicity] = eno.eno_stencil_periodic(x,y,interval,'k',k);
 
 xmax = interval(2); xmin = interval(1);
 % Compute x values
@@ -48,5 +53,5 @@ u = zeros(size(z));
 % Compute matrix of locations to interpolate to
 for q = 1:n
   flags = bin==q;
-  u(flags) = newton.newton_evaluate(z(flags),dd(:,q),XInput(q,:));
+  u(flags) = newton.newton_derivative_evaluate(XInput(q,:).',dd(:,q),z(flags));
 end
