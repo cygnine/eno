@@ -1,12 +1,4 @@
-% MATLAB File : EnoDerivativePeriodicDebug.m
-%
-% * Creation Date : 2009-06-04
-%
-% * Last Modified : Thu 04 Jun 2009 04:01:52 PM EDT
-%
-% * Created By : Akil Narayan
-%
-% * Purpose : Debugging EnoDerivativePeriodic
+% Debugging eno_stencil
 
 clear
 cd ..
@@ -27,7 +19,7 @@ if true
   fx = f(x);
   dfx = df(x);
 
-  d = eno_derivative_periodic(x,fx,x,[xmin,xmax],'k',k);
+  d = eno_derivative(x,fx,x,'k',k);
 
   fprintf('Error is %3.3e\n', norm(dfx-d));
 
@@ -41,8 +33,8 @@ if true
   fx = f(x);
   dfx = df(x);
   
-  [stencil,r] = eno_stencil_periodic(x,fx,[xmin,xmax],'k',k);
-  d = eno_derivative_periodic(x,fx,x,[xmin,xmax],'k',k);
+  [stencil,r] = eno_stencil(x,fx,'k',k);
+  d = eno_derivative(x,fx,x,'k',k);
 
   fprintf('Error is %3.3f\n', norm(dfx-d));
 end

@@ -1,25 +1,22 @@
-function[stencil,varargout] = eno_stencil_periodic(x,y,interval,varargin)
-% [STENCIL,{STENCIL_PERIODICITY,R}] = ENO_STENCIL_PERIODIC(X,Y,INTERVAL,{K:3})
+function[stencil,varargout] = eno_stencil(x,y,varargin)
+% [STENCIL,{R}] = ENO_STENCIL(X,Y,{K:3})
 %
 %     Given inputs (x,y) that are nodal locations and evaluations, respectively,
 %     uses the ENO reconstruction motivation to adaptively choose the least
 %     oscillatory stencil for K-th order interpolation. K must be greater than
-%     0.  interval is a 2-vector specifying the periodicity of the interval. If
-%     x is of length N, the returned matrix has N stencil indicators: one for
-%     each interval of reconstruction between the points. 
+%     0. If x is of length N, the returned matrix has N stencil indicators: one
+%     for each interval of reconstruction between the points. 
 %
 %     [X(1), X(2)] <---> stencil(1,;)
 %     [X(2), X(3)] <---> stencil(2,:)
 %                    .
 %                    .
 %                    .
-%     [X(N), X(1)] <---> stencil(N,:)   (Periodic extension)
+%     [X(N-1), X(N)] <---> stencil(N-1,:) 
 %     
 %     The output stencil is the finite-difference stencil used for computing
 %     divided differences, and the optional output R is the interval shift
-%     relative to `default' stencil interval. The optional output
-%     STENCIL_PERIODICITY is used to form ghost points when forming point-value
-%     stencils.
+%     relative to `default' stencil interval. 
 
 global handles
 cm = handles.common;
@@ -45,8 +42,10 @@ elseif k==1
   return 
 end
 
-xmin = interval(1); xmax = interval(2);
+xmin = min(x)-1;  % Completely random values
+xmax = max(x)+1;
 
+%%%% Do the same thing as eno_stencil_periodicty
 % Must now extend x and y for periodicity: introduce ghost points
 x = x(:);
 y = y(:);
@@ -100,7 +99,6 @@ else
   r = (PositiveCount-NegativeCount+1)/2;
 end
 
-[stencil,StencilPeriodicity] = fd.difference_stencil(n,k,'r',r,'periodic',true);
+[stencil] = fd.difference_stencil(n,k,'r',r);
 
-varargout{1} = StencilPeriodicity;
-varargout{2} = r;
+varargout{1} = r;

@@ -1,15 +1,14 @@
-function[u] = eno_derivative_periodic(x,y,z,interval,varargin)
-% [U] = ENO_DERIVATIVE_PERIODIC(X,Y,Z,INTERVAL,{K=3})
+function[u] = eno_derivative(x,y,z,varargin)
+% [U] = ENO_DERIVATIVE(X,Y,Z,{K=3})
 %
 %     Computes the derivative of the ENO interpolant at the nodal locations Z.
-%     See ENO_INTERPOLANT_PERIODIC. Interpolates the data set (X,Y) using a
+%     See ENO_INTERPOLANT. Interpolates the data set (X,Y) using a
 %     piecewise K-th order polynomial using the ENO stencil-choosing rubric,
 %     takes the derivative, and evaluates at the points Z. We allow X to be
 %     non-equispaced.  
 % 
-%     This is a periodic extension, so the 2-vector INTERVAL specifying the
-%     domain is required. The nodal vector X needs to be sorted, but need not
-%     contain nodes at the boundaries. 
+%     The nodal vector X needs to be sorted, but need not contain nodes at the
+%     boundaries. 
 
 global handles;
 cm = handles.common;
@@ -23,18 +22,10 @@ y = y(:);
 opt = cm.InputSchema({'k'}, {3},[],varargin{:});
 k = opt.k;
 
-[stencil,stencil_periodicity] = eno.eno_stencil_periodic(x,y,interval,'k',k);
+stencil = eno.eno_stencil(x,y,'k',k);
 
-xmax = interval(2); xmin = interval(1);
 % Compute x values
 XInput = x(stencil);
-inds = stencil_periodicity==1;
-% For indices that wrap down to 1:
-XInput(inds) = xmax + (XInput(inds) - xmin);
-
-inds = stencil_periodicity==-1;
-% For indices that wrap up to n:
-XInput(inds) = xmin - (xmax - XInput(inds));
 
 n = length(x);
 % Use stencil to compute interpolants
@@ -45,7 +36,7 @@ else
 end
 
 % Determine indicators for locations of nodes
-[temp,bin] = histc(z,[x;xmax + x(1) - xmin]);
+[temp,bin] = histc(z,x);
 
 u = zeros(size(z));
 
