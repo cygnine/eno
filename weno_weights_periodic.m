@@ -1,5 +1,5 @@
 function[Dks,beta_matrix,ds] = weno_weights_periodic(x,u,k,interval)
-% [DKS,BETAS,DS] = CALCULATE_WENO_WEIGHTS_PERIODIC(X,U,K,INTERVAL)
+% [DKS,BETAS,DS] = WENO_WEIGHTS_PERIODIC(X,U,K,INTERVAL)
 %
 %     Given the grid X and the finite-difference values U, computes the required
 %     WENO Taylor weights and Sobolev Indicators. Returns everything separately:
@@ -9,7 +9,7 @@ function[Dks,beta_matrix,ds] = weno_weights_periodic(x,u,k,interval)
 
 global handles;
 eno = handles.eno;
-newton = handles.bases.NewtonPolynomials;
+newton = handles.speclab.NewtonPolynomials;
 
 [Dks,ds] = eno.taylor_weights_periodic(x,k,interval);
 

@@ -1,24 +1,24 @@
 function[stencil,varargout] = eno_stencil_periodic(x,y,interval,varargin)
-% [STENCIL,VARARGOUT] = ENO_STENCIL_PERIODIC(X,Y,INTERVAL,VARARGIN)
+% [STENCIL,{STENCIL_PERIODICITY,R}] = ENO_STENCIL_PERIODIC(X,Y,INTERVAL,{K:3})
 %
 %     Given inputs (x,y) that are nodal locations and evaluations, respectively,
 %     uses the ENO reconstruction motivation to adaptively choose the least
-%     oscillatory stencil for k-th order interpolation. k must be greater than
+%     oscillatory stencil for K-th order interpolation. K must be greater than
 %     0.  interval is a 2-vector specifying the periodicity of the interval. If
 %     x is of length N, the returned matrix has N stencil indicators: one for
 %     each interval of reconstruction between the points. 
 %
-%     [x(1), x(2)] <---> stencil(1,;)
-%     [x(2), x(3)] <---> stencil(2,:)
+%     [X(1), X(2)] <---> stencil(1,;)
+%     [X(2), X(3)] <---> stencil(2,:)
 %                    .
 %                    .
 %                    .
-%     [x(N), x(1)] <---> stencil(N,:)   (Periodic extension)
+%     [X(N), X(1)] <---> stencil(N,:)   (Periodic extension)
 %     
 %     The output stencil is the finite-difference stencil used for computing
-%     divided differences, and the optional output r is the interval shift
+%     divided differences, and the optional output R is the interval shift
 %     relative to `default' stencil interval. The optional output
-%     stencil_periodicity is used to form ghost points when forming point-value
+%     STENCIL_PERIODICITY is used to form ghost points when forming point-value
 %     stencils.
 
 global handles

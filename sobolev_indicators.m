@@ -12,8 +12,8 @@ function[indicators] = sobolev_indicators(nc,x);
 
 
 global handles;
-newton = handles.bases.NewtonPolynomials;
-mono = handles.bases.monomials;
+newton = handles.speclab.NewtonPolynomials;
+mono = handles.speclab.monomials;
 
 
 k = size(nc,1) - 1; % polynomial order

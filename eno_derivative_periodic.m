@@ -1,11 +1,11 @@
 function[u] = eno_derivative_periodic(x,y,z,interval,varargin)
-% [U] = ENO_DERIVATIVE_PERIODIC(X,Y,Z,INTERVAL,{K})
+% [U] = ENO_DERIVATIVE_PERIODIC(X,Y,Z,INTERVAL,{K=3})
 %
 %     Computes the derivative of the ENO interpolant at the nodal locations Z.
 %     See ENO_INTERPOLANT_PERIODIC. Interpolates the data set (X,Y) using a
 %     piecewise K-th order polynomial using the ENO stencil-choosing rubric,
 %     takes the derivative, and evaluates at the points Z. We allow X to be
-%     non-equispaced.  The default is K=3.
+%     non-equispaced.  
 % 
 %     This is a periodic extension, so the 2-vector INTERVAL specifying the
 %     domain is required. The nodal vector X needs to be sorted, but need not
@@ -14,7 +14,7 @@ function[u] = eno_derivative_periodic(x,y,z,interval,varargin)
 global handles;
 cm = handles.common;
 eno = handles.eno;
-newton = handles.bases.NewtonPolynomials;
+newton = handles.speclab.NewtonPolynomials;
 
 % Force column vector
 x = x(:);

@@ -2,24 +2,22 @@ function[Dks,ds] = calculate_taylor_weights_periodic(x,k,interval)
 %
 % [DKS,DS] = CALCULATE_TAYLOR_WEIGHTS_PERIODIC(X,K,INTERVAL)
 %
-%     Calculates the linear WENO weights (not smoothness indicators) to relate k
-%     kth-order Taylor expansions to a (2k-1)th order Taylor expansion.  This is
+%     Calculates the linear WENO weights (not smoothness indicators) to relate K
+%     Kth-order Taylor expansions to a (2K-1)th order Taylor expansion.  This is
 %     basically a Taylor polynomial calculation for unstructured meshes.
 %     Although the weights are indeed calculated, this goes ahead and returns
-%     the affinely mapped k-th order differentiation matrices.
+%     the affinely mapped K-th order differentiation matrices.
 % 
 %     The details are as follows: you give me an unstructured mesh of size N. I
 %     return to you an (N+1) x K set of coefficients. For row m of that matrix,
-%     the K coefficients correspond to the linear combination of k-th order
-%     stencils needed to return a (2k-1)-th order interpolation stencil. The
-%     column location reflects the offset of the k-th order stencil. Row m
-%     corresponds to the interval between x(m) and x(m+1), where x(m+1) == x(1)
+%     the K coefficients correspond to the linear combination of K-th order
+%     stencils needed to return a (2K-1)-th order interpolation stencil. The
+%     column location reflects the offset of the K-th order stencil. Row m
+%     corresponds to the interval between X(m) and X(m+1), where X(m+1) == X(1)
 %     if m+1 == N+1. 
 
 global handles;
 fd = handles.FiniteDifference;
-%global common; prevpath = addpaths(common.FiniteDifference.base);
-%fd = handles.FiniteDifference;
 
 % Let's do this the slow and stupid way: linear determination of the weights
 % given the (2k-1)th and k-th order expansion coefficients. We'll use

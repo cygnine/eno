@@ -1,5 +1,5 @@
 function[u] = eno_interpolant_periodic(x,y,z,interval,varargin)
-% [U] = ENO_INTERPOLANT_PERIODIC(X,Y,Z,INTERVAL,{K})
+% [U] = ENO_INTERPOLANT_PERIODIC(X,Y,Z,INTERVAL,{K=3})
 %
 %     Interpolates the data set (X,Y) using a piecewise K-th order polynomial
 %     using the ENO stencil-choosing rubric, evaluates at the points Z. We allow
@@ -12,7 +12,7 @@ function[u] = eno_interpolant_periodic(x,y,z,interval,varargin)
 global handles;
 cm = handles.common;
 eno = handles.eno;
-newton = handles.bases.NewtonPolynomials;
+newton = handles.speclab.NewtonPolynomials;
 
 % Force column vector
 x = x(:);
