@@ -3,7 +3,7 @@ function[u] = eno_interpolant(x,y,z,varargin)
 %
 %     Interpolates the data set (X,Y) using a piecewise K-th order polynomial
 %     using the ENO stencil-choosing rubric, evaluates at the points Z. We allow
-%     X to be non-equispaced.  The default is K=3.
+%     X to be non-equispaced. 
 % 
 %     The nodal vector X needs to be sorted, but need not contain nodes at the
 %     boundaries. 
@@ -20,6 +20,7 @@ y = y(:);
 opt = cm.InputSchema({'k'}, {3},[],varargin{:});
 k = opt.k;
 
+% Compute eno stencil
 stencil = eno.eno_stencil(x,y,'k',k);
 
 % Compute x values
@@ -34,6 +35,8 @@ else
 end
 
 % Determine indicators for locations of nodes
+% Temporarily redefine x as the bin separators to include all real numbers
+x= [-inf; x(2:(end-1)); inf];
 [temp,bin] = histc(z,x);
 
 u = zeros(size(z));
