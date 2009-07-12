@@ -36,6 +36,8 @@ else
 end
 
 % Determine indicators for locations of nodes
+% Temporarily redefine x as the bin separators to include all real numbers
+x= [-inf; x(2:(end-1)); inf];
 [temp,bin] = histc(z,x);
 
 u = zeros(size(z));

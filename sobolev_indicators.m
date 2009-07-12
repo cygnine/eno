@@ -7,7 +7,7 @@ function[indicators] = sobolev_indicators(nc,x);
 %     I.e. For every column of NC (and also X), computes the Sobolev norms over
 %     intervals specified by sequential pairwise subsets of rows of X.  The
 %     inputs (DS) are the outputs from taylor_weights_periodic: they are the
-%     linear Taylor relations connecting lower-order Taylor expandsions to
+%     linear Taylor relations connecting lower-order Taylor expansions to
 %     higher-order expansions
 
 
