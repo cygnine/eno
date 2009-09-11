@@ -27,7 +27,7 @@ global handles
 cm = handles.common;
 fd = handles.finite_difference;
 
-opt = cm.InputSchema({'k'}, {3}, [],varargin{:});
+opt = cm.input_schema({'k'}, {3}, [],varargin{:});
 k = opt.k;
 
 n = length(x);

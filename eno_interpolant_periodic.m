@@ -20,7 +20,7 @@ newton = handles.speclab.NewtonPolynomials;
 x = x(:);
 y = y(:);
 
-opt = cm.InputSchema({'k'}, {3},[],varargin{:});
+opt = cm.input_schema({'k'}, {3},[],varargin{:});
 k = opt.k;
 
 [stencil,stencil_periodicity] = eno.eno_stencil_periodic(x,y,interval,'k',k);

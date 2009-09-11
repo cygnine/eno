@@ -21,7 +21,7 @@ newton = handles.speclab.NewtonPolynomials;
 x = x(:);
 y = y(:);
 
-opt = cm.InputSchema({'k'}, {3},[],varargin{:});
+opt = cm.input_schema({'k'}, {3},[],varargin{:});
 k = opt.k;
 
 stencil = eno.eno_stencil(x,y,'k',k);
