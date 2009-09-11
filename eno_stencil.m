@@ -22,7 +22,7 @@ function[stencil,r,indicator] = eno_stencil(x,y,varargin)
 
 global handles
 cm = handles.common;
-fd = handles.FiniteDifference;
+fd = handles.finite_difference;
 
 opt = cm.InputSchema({'k'}, {3}, [],varargin{:});
 k = opt.k;
@@ -62,7 +62,7 @@ YGhost = [y(n-k+2:n); ...
      y; ...
      y(1:k)];
 
-% Chooses stencils in the same fashion as common/FiniteDifference/DifferenceStencil (r=0)
+% Chooses stencils in the same fashion as common/finite_difference/DifferenceStencil (r=0)
 NegativeCount = zeros([n,1],'int32');
 PositiveCount = zeros([n,1],'int32');
 differences = YGhost;

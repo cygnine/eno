@@ -18,7 +18,7 @@ function[Dks,ds] = calculate_taylor_weights_periodic(x,k,interval)
 %     if m+1 == N+1. 
 
 global handles;
-fd = handles.FiniteDifference;
+fd = handles.finite_difference;
 
 % Let's do this the slow and stupid way: linear determination of the weights
 % given the (2k-1)th and k-th order expansion coefficients. We'll use

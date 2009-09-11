@@ -1,7 +1,7 @@
 % Script for debugging taylor weights
 
 global handles;
-fd = handles.FiniteDifference;
+fd = handles.finite_difference;
 eno = handles.eno;
 
 ks = 2:7;
