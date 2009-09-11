@@ -1,4 +1,4 @@
-function[stencil,varargout] = eno_stencil_periodic(x,y,interval,varargin)
+function[stencil,stencil_periodicity,r] = eno_stencil_periodic(x,y,interval,varargin)
 % eno_stencil_periodic -- returns the stencil for periodic eno operations
 %
 % [stencil,{stencil_periodicity,r}] = eno_stencil_periodic(x,y,interval,{k:3})
@@ -34,15 +34,18 @@ n = length(x);
 
 % Trival cases
 if k==0
-  varargout{1} = zeros([n,1], 'int8');
-  varargout{2} = 0;
+  %varargout{1} = zeros([n,1], 'int8');
+  %varargout{2} = 0;
+  stencil_periodicity = zeros([n,1], 'int8');
+  r = 0;
   stencil = [(1:n).'];
   return 
 elseif k==1
   stencil_periodicity = zeros([n,2],'int8');
   stencil_periodicity(n,2) = 1;
-  varargout{1} = stencil_periodicity;
-  varargout{2} = 0;
+  %varargout{1} = stencil_periodicity;
+  %varargout{2} = 0;
+  r = 0;
   stencil = [(1:n).', mod((2:n+1).'-1,n)+1];
   return 
 end
@@ -102,7 +105,7 @@ else
   r = (PositiveCount-NegativeCount+1)/2;
 end
 
-[stencil,StencilPeriodicity] = fd.difference_stencil(n,k,'r',r,'periodic',true);
+[stencil,stencil_periodicity] = fd.difference_stencil(n,k,'r',r,'periodic',true);
 
-varargout{1} = StencilPeriodicity;
-varargout{2} = r;
+%varargout{1} = StencilPeriodicity;
+%varargout{2} = r;

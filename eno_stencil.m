@@ -1,7 +1,7 @@
-function[stencil,varargout] = eno_stencil(x,y,varargin)
+function[stencil,r,indicator] = eno_stencil(x,y,varargin)
 % eno_stencil -- returns the stencil necessary for eno operations
 %
-% [stencil,{r}] = eno_stencil(x,y,{k:3})
+% [stencil,{r,}] = eno_stencil(x,y,{k:3})
 %
 %     Given inputs (x,y) that are nodal locations and evaluations, respectively,
 %     uses the ENO reconstruction motivation to adaptively choose the least
@@ -31,15 +31,19 @@ n = length(x);
 
 % Trival cases
 if k==0
-  varargout{1} = zeros([n,1], 'int8');
-  varargout{2} = 0;
+  %varargout{1} = zeros([n,1], 'int8');
+  %varargout{2} = 0;
+  r = zeros([n,1], 'int8');
+  indicator = 0;
   stencil = [(1:n).'];
   return 
 elseif k==1
   stencil_periodicity = zeros([n,2],'int8');
   stencil_periodicity(n,2) = 1;
-  varargout{1} = stencil_periodicity;
-  varargout{2} = 0;
+  %varargout{1} = stencil_periodicity;
+  %varargout{2} = 0;
+  r = stencil_periodicity;
+  indicator = 0;
   stencil = [(1:n).', mod((2:n+1).'-1,n)+1];
   return 
 end
@@ -103,4 +107,6 @@ end
 
 [stencil] = fd.difference_stencil(n,k,'r',r);
 
-varargout{1} = r;
+%varargout{1} = r;
+%varargout{2} = 1;
+indicator = 1;
