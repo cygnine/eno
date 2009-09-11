@@ -1,5 +1,7 @@
 function[indicators] = sobolev_indicators(nc,x);
-% [INDICATORS] = SOBOLEV_INDICATORS(NC,X)
+% sobolev_indicators -- Sobolev norm approximations of polynomials
+%
+% [indicators] = sobolev_indicators(nc,x)
 %
 %     Given Newton polynomial modal coefficients (NC) defining polynomials with
 %     basis functions given by the Newton nodal locations (X), computes the

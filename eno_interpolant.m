@@ -1,5 +1,7 @@
 function[u] = eno_interpolant(x,y,z,varargin)
-% [U] = ENO_INTERPOLANT(X,Y,Z,{K=3})
+% eno_interpolant -- evaluates eno finite-difference interpolant
+%
+% [u] = eno_interpolant(x,y,z,{k=3})
 %
 %     Interpolates the data set (X,Y) using a piecewise K-th order polynomial
 %     using the ENO stencil-choosing rubric, evaluates at the points Z. We allow

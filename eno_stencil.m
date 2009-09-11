@@ -1,5 +1,7 @@
 function[stencil,varargout] = eno_stencil(x,y,varargin)
-% [STENCIL,{R}] = ENO_STENCIL(X,Y,{K:3})
+% eno_stencil -- returns the stencil necessary for eno operations
+%
+% [stencil,{r}] = eno_stencil(x,y,{k:3})
 %
 %     Given inputs (x,y) that are nodal locations and evaluations, respectively,
 %     uses the ENO reconstruction motivation to adaptively choose the least

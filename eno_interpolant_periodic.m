@@ -1,5 +1,7 @@
 function[u] = eno_interpolant_periodic(x,y,z,interval,varargin)
-% [U] = ENO_INTERPOLANT_PERIODIC(X,Y,Z,INTERVAL,{K=3})
+% eno_interpolant_periodic -- interpolates periodic pointwise data using eno
+%
+% [u] = eno_interpolant_periodic(x,y,z,interval,{k=3})
 %
 %     Interpolates the data set (X,Y) using a piecewise K-th order polynomial
 %     using the ENO stencil-choosing rubric, evaluates at the points Z. We allow

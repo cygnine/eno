@@ -1,6 +1,7 @@
 function[Dks,ds] = calculate_taylor_weights_periodic(x,k,interval)
+% calculate_taylor_weights_periodic -- periodic weno weight calculation
 %
-% [DKS,DS] = CALCULATE_TAYLOR_WEIGHTS_PERIODIC(X,K,INTERVAL)
+% [Dks,ds] = calculate_taylor_weights_periodic(x,k,interval)
 %
 %     Calculates the linear WENO weights (not smoothness indicators) to relate K
 %     Kth-order Taylor expansions to a (2K-1)th order Taylor expansion.  This is

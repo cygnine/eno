@@ -1,5 +1,7 @@
 function[hs,pathadditions] = handles__()
-% [HS,PATHADDITIONS] = HANDLES__()
+% handles__ -- constructs path tree for the eno module
+%
+% [hs,pathadditions] = handles__()
 %
 %     Returns directory pointers for common module in HS. PATHADDITIONS is a
 %     cell array with a string in each element indicated paths to add to the

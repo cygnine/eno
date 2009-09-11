@@ -1,5 +1,7 @@
 function[stencil,varargout] = eno_stencil_periodic(x,y,interval,varargin)
-% [STENCIL,{STENCIL_PERIODICITY,R}] = ENO_STENCIL_PERIODIC(X,Y,INTERVAL,{K:3})
+% eno_stencil_periodic -- returns the stencil for periodic eno operations
+%
+% [stencil,{stencil_periodicity,r}] = eno_stencil_periodic(x,y,interval,{k:3})
 %
 %     Given inputs (x,y) that are nodal locations and evaluations, respectively,
 %     uses the ENO reconstruction motivation to adaptively choose the least

@@ -1,5 +1,7 @@
 function[u] = eno_derivative_periodic(x,y,z,interval,varargin)
-% [U] = ENO_DERIVATIVE_PERIODIC(X,Y,Z,INTERVAL,{K=3})
+% eno_derivative_periodic -- periodic eno finite-difference interpolant
+%
+% [u] = eno_derivative_periodic(x,y,z,interval,{k=3})
 %
 %     Computes the derivative of the ENO interpolant at the nodal locations Z.
 %     See ENO_INTERPOLANT_PERIODIC. Interpolates the data set (X,Y) using a

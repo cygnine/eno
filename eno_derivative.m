@@ -1,5 +1,7 @@
 function[u] = eno_derivative(x,y,z,varargin)
-% [U] = ENO_DERIVATIVE(X,Y,Z,{K=3})
+% eno_derivative -- computes an eno finite-difference derivative
+%
+% [u] = eno_derivative(x,y,z,{k=3})
 %
 %     Computes the derivative of the ENO interpolant at the nodal locations Z.
 %     See ENO_INTERPOLANT. Interpolates the data set (X,Y) using a
