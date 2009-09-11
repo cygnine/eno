@@ -51,5 +51,6 @@ u = zeros(size(z));
 % Compute matrix of locations to interpolate to
 for q = 1:n
   flags = bin==q;
-  u(flags) = newton.newton_evaluate(z(flags),dd(:,q),XInput(q,:));
+  %u(flags) = newton.newton_evaluate(z(flags),dd(:,q),XInput(q,:));
+  u(flags) = newton.newton_evaluate(XInput(q,:),dd(:,q),z(flags));
 end
