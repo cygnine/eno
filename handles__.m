@@ -1,11 +1,13 @@
-function[hs,pathadditions] = handles__()
+function[hs,pathadditions,name] = handles__()
 % handles__ -- constructs path tree for the eno module
 %
-% [hs,pathadditions] = handles__()
+% [hs,pathadditions,name] = handles__()
 %
-%     Returns directory pointers for common module in HS. PATHADDITIONS is a
+%     Returns directory pointers for common module in hs. pathadditions is a
 %     cell array with a string in each element indicated paths to add to the
-%     global path structure. 
+%     global path structure. name is a string dictating the name of the module.
+
+name = 'eno';
 
 % This is by default
 hs.base = fileparts(mfilename('fullpath'));
