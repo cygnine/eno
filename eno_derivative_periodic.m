@@ -16,7 +16,7 @@ function[u] = eno_derivative_periodic(x,y,z,interval,varargin)
 global handles;
 cm = handles.common;
 eno = handles.eno;
-newton = handles.speclab.NewtonPolynomials;
+newton = handles.speclab.newton_polynomials;
 
 % Force column vector
 x = x(:);
