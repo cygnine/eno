@@ -19,6 +19,8 @@ newton = handles.speclab.newton_polynomials;
 % Force column vector
 x = x(:);
 y = y(:);
+zsize = size(z);
+z = z(:);
 
 opt = cm.input_schema({'k'}, {3},[],varargin{:});
 k = opt.k;
@@ -47,12 +49,21 @@ end
 % Determine indicators for locations of nodes
 [temp,bin] = histc(z,[x;xmax + x(1) - xmin]);
 
+% Take care of periodic nodes < x(1)
+flags = (bin==0);
+bin(flags) = n;
+flags2 = flags & z<=x(1);
+z(flags2) = xmax + (z(flags2) - xmin);
+
 u = zeros(size(z));
 
 % For loops are bad, but I can't figure out how to vectorize this
 % Compute matrix of locations to interpolate to
 for q = 1:n
   flags = bin==q;
-  %u(flags) = newton.newton_evaluate(z(flags),dd(:,q),XInput(q,:));
-  u(flags) = newton.newton_evaluate(XInput(q,:),dd(:,q),z(flags));
+  if any(flags)
+    u(flags) = newton.newton_evaluate(XInput(q,:),dd(:,q),z(flags));
+  end
 end
+
+u = reshape(u, zsize);

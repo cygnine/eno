@@ -1,9 +1,9 @@
 function[u] = eno_derivative(x,y,z,varargin)
 % eno_derivative -- computes an eno finite-difference derivative
 %
-% [u] = eno_derivative(x,y,z,{k=3})
+% [u] = eno_derivative(x,y,z,{k=3, d=1})
 %
-%     Computes the derivative of the ENO interpolant at the nodal locations Z.
+%     Computes the d'th derivative of the ENO interpolant at the nodal locations Z.
 %     See ENO_INTERPOLANT. Interpolates the data set (X,Y) using a
 %     piecewise K-th order polynomial using the ENO stencil-choosing rubric,
 %     takes the derivative, and evaluates at the points Z. We allow X to be
@@ -21,7 +21,7 @@ newton = handles.speclab.newton_polynomials;
 x = x(:);
 y = y(:);
 
-opt = cm.input_schema({'k'}, {3},[],varargin{:});
+opt = cm.input_schema({'k', 'd'}, {3, 1},[],varargin{:});
 k = opt.k;
 
 stencil = eno.eno_stencil(x,y,'k',k);
@@ -49,6 +49,7 @@ u = zeros(size(z));
 for q = 1:n
   flags = bin==q;
   if any(flags)
-    u(flags) = newton.newton_derivative_evaluate(XInput(q,:).',dd(:,q),z(flags));
+    %u(flags) = newton.newton_derivative_evaluate(XInput(q,:).',dd(:,q),z(flags));
+    u(flags) = newton.newton_derivative_evaluate(XInput(q,:).',dd(:,q),'z',z(flags), 'd', opt.d);
   end
 end
