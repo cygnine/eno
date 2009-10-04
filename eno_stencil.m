@@ -5,9 +5,13 @@ function[stencil,r,indicator] = eno_stencil(x,y,varargin)
 %
 %     Given inputs (x,y) that are nodal locations and evaluations, respectively,
 %     uses the ENO reconstruction motivation to adaptively choose the least
-%     oscillatory stencil for K-th order interpolation. K must be greater than
-%     0. If x is of length N, the returned matrix has N stencil indicators: one
-%     for each interval of reconstruction between the points. 
+%     oscillatory stencil for K-th order interpolation. `Least oscillatory'
+%     refers to the derivatives of the reconstructed interpolant at the *left*
+%     point of the cell.
+% 
+%     K must be greater than 0. If x is of length N, the returned matrix has N
+%     stencil indicators: one for each interval of reconstruction between the
+%     points. 
 %
 %     [X(1), X(2)] <---> stencil(1,;)
 %     [X(2), X(3)] <---> stencil(2,:)
@@ -15,10 +19,19 @@ function[stencil,r,indicator] = eno_stencil(x,y,varargin)
 %                    .
 %                    .
 %     [X(N-1), X(N)] <---> stencil(N-1,:) 
+%     [X(N-1), X(N)] <---> stencil(N,:), measuring oscillation at right of cell
 %     
 %     The output stencil is the finite-difference stencil used for computing
 %     divided differences, and the optional output R is the interval shift
 %     relative to `default' stencil interval. 
+%
+%     stencil(1:end-1,:) is then the ENO polynomial interpolation stencil
+%     constructed using divided differences at the left-hand point of the cell,
+%     and stencil(2:end,:) is the same but using the right-hand point of the
+%     cell. 
+%
+%     TODO: this doesn't actually do the right thing if want choice on
+%     right-hand side: it doesn't necessarily use the other point of the cell.
 
 global handles
 cm = handles.common;
@@ -31,8 +44,6 @@ n = length(x);
 
 % Trival cases
 if k==0
-  %varargout{1} = zeros([n,1], 'int8');
-  %varargout{2} = 0;
   r = zeros([n,1], 'int8');
   indicator = 0;
   stencil = [(1:n).'];
@@ -40,8 +51,6 @@ if k==0
 elseif k==1
   stencil_periodicity = zeros([n,2],'int8');
   stencil_periodicity(n,2) = 1;
-  %varargout{1} = stencil_periodicity;
-  %varargout{2} = 0;
   r = stencil_periodicity;
   indicator = 0;
   stencil = [(1:n).', mod((2:n+1).'-1,n)+1];
@@ -107,6 +116,4 @@ end
 
 [stencil] = fd.difference_stencil(n,k,'r',r);
 
-%varargout{1} = r;
-%varargout{2} = 1;
 indicator = 1;

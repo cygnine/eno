@@ -20,6 +20,8 @@ newton = handles.speclab.newton_polynomials;
 % Force column vector
 x = x(:);
 y = y(:);
+zsize = size(z);
+z = z(:);
 
 opt = cm.input_schema({'k', 'd'}, {3, 1},[],varargin{:});
 k = opt.k;
@@ -53,3 +55,5 @@ for q = 1:n
     u(flags) = newton.newton_derivative_evaluate(XInput(q,:).',dd(:,q),'z',z(flags), 'd', opt.d);
   end
 end
+
+u = reshape(u,zsize);

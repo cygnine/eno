@@ -15,6 +15,7 @@ global handles;
 cm = handles.common;
 eno = handles.eno;
 newton = handles.speclab.newton_polynomials;
+eno_setup = eno.eno_setup.handle;
 
 % Force column vector
 x = x(:);
@@ -23,28 +24,13 @@ zsize = size(z);
 z = z(:);
 
 opt = cm.input_schema({'k'}, {3},[],varargin{:});
-k = opt.k;
 
-[stencil,stencil_periodicity] = eno.eno_stencil_periodic(x,y,interval,'k',k);
+%[stencil,stencil_periodicity] = eno.eno_stencil_periodic(x,y,interval,'k',k);
 
 xmax = interval(2); xmin = interval(1);
-% Compute x values
-XInput = x(stencil);
-inds = stencil_periodicity==1;
-% For indices that wrap down to 1:
-XInput(inds) = xmax + (XInput(inds) - xmin);
-
-inds = stencil_periodicity==-1;
-% For indices that wrap up to n:
-XInput(inds) = xmin - (xmax - XInput(inds));
 
 n = length(x);
-% Use stencil to compute interpolants
-if k==0
-  dd = reshape(y,[1,n]);
-else
-  dd = newton.divided_difference(XInput.',y(stencil.'));
-end
+eno_info = eno_setup(x,y,'periodic', true, 'interval', interval, 'k', opt.k);
 
 % Determine indicators for locations of nodes
 [temp,bin] = histc(z,[x;xmax + x(1) - xmin]);
@@ -62,7 +48,7 @@ u = zeros(size(z));
 for q = 1:n
   flags = bin==q;
   if any(flags)
-    u(flags) = newton.newton_evaluate(XInput(q,:),dd(:,q),z(flags));
+    u(flags) = newton.newton_evaluate.handle(eno_info.XInput(q,:),eno_info.dd(:,q),z(flags));
   end
 end
 

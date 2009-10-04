@@ -3,38 +3,30 @@ function[u] = eno_interpolant(x,y,z,varargin)
 %
 % [u] = eno_interpolant(x,y,z,{k=3})
 %
-%     Interpolates the data set (X,Y) using a piecewise K-th order polynomial
-%     using the ENO stencil-choosing rubric, evaluates at the points Z. We allow
-%     X to be non-equispaced. 
+%     Interpolates the data set (x,y) using a piecewise k-th order polynomial
+%     using the ENO stencil-choosing rubric, evaluates at the points z. We allow
+%     x to be non-equispaced. 
 % 
-%     The nodal vector X needs to be sorted, but need not contain nodes at the
-%     boundaries. 
+%     The nodal vector x needs to be sorted, but need not contain nodes at the
+%     boundaries. If points z lie outside the cells defined by x, extrapolation
+%     from the nearest cell is used.
 
 global handles;
 cm = handles.common;
 eno = handles.eno;
 newton = handles.speclab.newton_polynomials;
+eno_setup = eno.eno_setup.handle;
+
+opt = cm.input_schema({'k'}, {3},[],varargin{:});
 
 % Force column vector
 x = x(:);
 y = y(:);
-
-opt = cm.input_schema({'k'}, {3},[],varargin{:});
-k = opt.k;
-
-% Compute eno stencil
-stencil = eno.eno_stencil(x,y,'k',k);
-
-% Compute x values
-XInput = x(stencil);
+zsize = size(z);
+z = z(:);
 
 n = length(x);
-% Use stencil to compute interpolants
-if k==0
-  dd = reshape(y,[1,n]);
-else
-  dd = newton.divided_difference(XInput.',y(stencil.'));
-end
+eno_info = eno_setup(x,y,'k',opt.k);
 
 % Determine indicators for locations of nodes
 % Temporarily redefine x as the bin separators to include all real numbers
@@ -48,6 +40,8 @@ u = zeros(size(z));
 for q = 1:n
   flags = bin==q;
   if any(flags)
-    u(flags) = newton.newton_evaluate(XInput(q,:),dd(:,q),z(flags));
+    u(flags) = newton.newton_evaluate.handle(eno_info.XInput(q,:),eno_info.dd(:,q),z(flags));
   end
 end
+
+u = reshape(u, zsize);
