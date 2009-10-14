@@ -40,7 +40,7 @@ if length(opt.interval)<2
 else
   eno_info = eno_setup(x,y,'k', opt.k, 'periodic', true, 'interval', opt.interval);
   cell_scale(end+1) = ((opt.interval(2) - x(end)) + (x(1) - opt.interval(1)))/2;
-  cell_shift(end+1) = ((opt.interval(2) - x(end)) + (x(1) - opt.interval(1)))/2;
+  cell_shift(end+1) = x(end) + 1/2*((opt.interval(2) - x(end)) + (x(1) - opt.interval(1)));
 end
 
 % Global vertices
