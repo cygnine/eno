@@ -1,7 +1,7 @@
 function[p] = eno_reconstruction(x,y,varargin)
 % eno_reconstruction -- constructs an ENO PiecewisePolynomial
 %
-% [p] = eno_reconstruction(x,y,{k=3,d=0,alpha=0,beta=0,interval=[]})
+% [p] = eno_reconstruction(x,y,{k=3,alpha=0,beta=0,interval=[]})
 %
 %     Interpolates the data set (x,y) using a piecewise k-th order polynomial
 %     using the ENO stencil-choosing rubric. Takes the d'th derivative. See
@@ -17,8 +17,8 @@ function[p] = eno_reconstruction(x,y,varargin)
 %     (alpha,beta).
 
 global handles;
-inputs = {'k', 'd', 'alpha', 'beta', 'interval'};
-defaults = {3, 0, 0, 0, []};
+inputs = {'k', 'alpha', 'beta', 'interval'};
+defaults = {3, 0, 0, []};
 opt = handles.common.input_schema(inputs, defaults, [], varargin{:});
 repnodes = handles.piecewise_interpolation.grid_tools.replicate_local_nodes;
 eno = handles.eno.eno_interpolant;
