@@ -14,7 +14,7 @@ function[u] = eno_interpolant(x,y,z,varargin)
 global handles;
 cm = handles.common;
 eno = handles.eno;
-newton = handles.speclab.newton_polynomials;
+newton_eval = handles.speclab.newton_polynomials.newton_evaluate.handle;
 eno_setup = eno.eno_setup.handle;
 
 opt = cm.input_schema({'k'}, {3},[],varargin{:});
@@ -40,7 +40,7 @@ u = zeros(size(z));
 for q = 1:n
   flags = bin==q;
   if any(flags)
-    u(flags) = newton.newton_evaluate.handle(eno_info.XInput(q,:),eno_info.dd(:,q),z(flags));
+    u(flags) = newton_eval(eno_info.XInput(q,:),eno_info.dd(:,q),z(flags));
   end
 end
 

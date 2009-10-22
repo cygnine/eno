@@ -14,7 +14,7 @@ function[u] = eno_interpolant_periodic(x,y,z,interval,varargin)
 global handles;
 cm = handles.common;
 eno = handles.eno;
-newton = handles.speclab.newton_polynomials;
+newton_eval = handles.speclab.newton_polynomials.newton_evaluate.handle;
 eno_setup = eno.eno_setup.handle;
 
 % Force column vector
@@ -48,7 +48,7 @@ u = zeros(size(z));
 for q = 1:n
   flags = bin==q;
   if any(flags)
-    u(flags) = newton.newton_evaluate.handle(eno_info.XInput(q,:),eno_info.dd(:,q),z(flags));
+    u(flags) = newton_eval(eno_info.XInput(q,:),eno_info.dd(:,q),z(flags));
   end
 end
 
