@@ -17,8 +17,8 @@ function[Dks,ds] = calculate_taylor_weights_periodic(x,k,interval)
 %     corresponds to the interval between X(m) and X(m+1), where X(m+1) == X(1)
 %     if m+1 == N+1. 
 
-global handles;
-fd = handles.finite_difference;
+global packages;
+fd = packages.finite_difference;
 
 % Let's do this the slow and stupid way: linear determination of the weights
 % given the (2k-1)th and k-th order expansion coefficients. We'll use

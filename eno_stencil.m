@@ -33,9 +33,9 @@ function[stencil,r,indicator] = eno_stencil(x,y,varargin)
 %     TODO: this doesn't actually do the right thing if want choice on
 %     right-hand side: it doesn't necessarily use the other point of the cell.
 
-global handles
-cm = handles.common;
-fd = handles.finite_difference;
+global packages
+cm = packages.labtools;
+fd = packages.finite_difference;
 
 opt = cm.input_schema({'k'}, {3}, [],varargin{:});
 k = opt.k;

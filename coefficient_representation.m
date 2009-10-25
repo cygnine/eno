@@ -17,14 +17,14 @@ function[c] = coefficient_representation(x,y,varargin)
 %     If `interval' is not specified, the function is not assumed to have
 %     periodicity and c is a (k+1) x (length(x) - 1) matrix.
 
-global handles;
-jac = handles.speclab.orthopoly1d.jacobi;
-eno_setup = handles.eno.eno_setup.handle;
-newton_eval = handles.speclab.newton_polynomials.newton_evaluate.handle;
+global packages;
+jac = packages.speclab.orthopoly1d.jacobi;
+eno_setup = packages.eno.eno_setup.handle;
+newton_eval = packages.speclab.newton_polynomials.newton_evaluate.handle;
 
 inputs = {'interval', 'k', 'alpha', 'beta'};
 defaults = {false, 3, 0, 0};
-opt = handles.common.input_schema(inputs, defaults, [], varargin{:});
+opt = packages.labtools.input_schema(inputs, defaults, [], varargin{:});
 
 k = opt.k;
 x = x(:);

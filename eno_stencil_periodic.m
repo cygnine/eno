@@ -23,9 +23,9 @@ function[stencil,stencil_periodicity,r] = eno_stencil_periodic(x,y,interval,vara
 %     STENCIL_PERIODICITY is used to form ghost points when forming point-value
 %     stencils.
 
-global handles
-cm = handles.common;
-fd = handles.finite_difference;
+global packages
+cm = packages.labtools;
+fd = packages.finite_difference;
 
 opt = cm.input_schema({'k'}, {3}, [],varargin{:});
 k = opt.k;

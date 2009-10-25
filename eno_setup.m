@@ -9,13 +9,13 @@ function[eno_info] = eno_setup(x,y,varargin)
 %     interval of periodicity. Also returns the eno stencil and the periodicity
 %     indicators (if appropriate). 
 
-global handles;
+global packages;
 inputs = {'k', 'interval', 'periodic'};
 defaults = {3, false, false};
-opt = handles.common.input_schema(inputs, defaults, [], varargin{:});
-divided_difference = handles.speclab.newton_polynomials.divided_difference.handle;
-eno = handles.eno.eno_stencil.handle;
-enop = handles.eno.eno_stencil_periodic.handle;
+opt = packages.labtools.input_schema(inputs, defaults, [], varargin{:});
+divided_difference = packages.speclab.newton_polynomials.divided_difference.handle;
+eno = packages.eno.eno_stencil.handle;
+enop = packages.eno.eno_stencil_periodic.handle;
 
 % Force column vectors:
 x = x(:);

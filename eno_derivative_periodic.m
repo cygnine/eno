@@ -13,10 +13,10 @@ function[u] = eno_derivative_periodic(x,y,z,interval,varargin)
 %     domain is required. The nodal vector X needs to be sorted, but need not
 %     contain nodes at the boundaries. 
 
-global handles;
-cm = handles.common;
-eno = handles.eno;
-newton = handles.speclab.newton_polynomials;
+global packages;
+cm = packages.labtools;
+eno = packages.eno;
+newton = packages.speclab.newton_polynomials;
 
 % Force column vector
 x = x(:);

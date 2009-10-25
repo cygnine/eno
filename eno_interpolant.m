@@ -11,10 +11,10 @@ function[u] = eno_interpolant(x,y,z,varargin)
 %     boundaries. If points z lie outside the cells defined by x, extrapolation
 %     from the nearest cell is used.
 
-global handles;
-cm = handles.common;
-eno = handles.eno;
-newton_eval = handles.speclab.newton_polynomials.newton_evaluate.handle;
+global packages;
+cm = packages.labtools;
+eno = packages.eno;
+newton_eval = packages.speclab.newton_polynomials.newton_evaluate.handle;
 eno_setup = eno.eno_setup.handle;
 
 opt = cm.input_schema({'k'}, {3},[],varargin{:});

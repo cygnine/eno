@@ -13,9 +13,9 @@ function[indicators] = sobolev_indicators(nc,x);
 %     higher-order expansions
 
 
-global handles;
-newton = handles.speclab.NewtonPolynomials;
-mono = handles.speclab.monomials;
+global packages;
+newton = packages.speclab.NewtonPolynomials;
+mono = packages.speclab.monomials;
 
 
 k = size(nc,1) - 1; % polynomial order

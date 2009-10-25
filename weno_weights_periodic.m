@@ -9,9 +9,9 @@ function[Dks,beta_matrix,ds] = weno_weights_periodic(x,u,k,interval)
 %     matrices, the BETAS are the already-scaled weights ready for application
 %     for these values of U.
 
-global handles;
-eno = handles.eno;
-newton = handles.speclab.NewtonPolynomials;
+global packages;
+eno = packages.eno;
+newton = packages.speclab.NewtonPolynomials;
 
 [Dks,ds] = eno.taylor_weights_periodic(x,k,interval);
 

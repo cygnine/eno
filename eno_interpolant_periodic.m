@@ -11,10 +11,10 @@ function[u] = eno_interpolant_periodic(x,y,z,interval,varargin)
 %     domain is required. The nodal vector X needs to be sorted, but need not
 %     contain nodes at the boundaries. 
 
-global handles;
-cm = handles.common;
-eno = handles.eno;
-newton_eval = handles.speclab.newton_polynomials.newton_evaluate.handle;
+global packages;
+cm = packages.labtools;
+eno = packages.eno;
+newton_eval = packages.speclab.newton_polynomials.newton_evaluate.handle;
 eno_setup = eno.eno_setup.handle;
 
 % Force column vector
