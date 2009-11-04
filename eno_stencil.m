@@ -22,16 +22,13 @@ function[stencil,r,indicator] = eno_stencil(x,y,varargin)
 %     [X(N-1), X(N)] <---> stencil(N,:), measuring oscillation at right of cell
 %     
 %     The output stencil is the finite-difference stencil used for computing
-%     divided differences, and the optional output R is the interval shift
+%     divided differences, and the optional output r is the interval shift
 %     relative to `default' stencil interval. 
 %
 %     stencil(1:end-1,:) is then the ENO polynomial interpolation stencil
 %     constructed using divided differences at the left-hand point of the cell,
 %     and stencil(2:end,:) is the same but using the right-hand point of the
 %     cell. 
-%
-%     TODO: this doesn't actually do the right thing if want choice on
-%     right-hand side: it doesn't necessarily use the other point of the cell.
 
 global packages
 cm = packages.labtools;

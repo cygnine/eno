@@ -9,13 +9,14 @@ function[eno_info] = eno_setup(x,y,varargin)
 %     interval of periodicity. Also returns the eno stencil and the periodicity
 %     indicators (if appropriate). 
 
-global packages;
 inputs = {'k', 'interval', 'periodic'};
 defaults = {3, false, false};
-opt = packages.labtools.input_schema(inputs, defaults, [], varargin{:});
-divided_difference = packages.speclab.newton_polynomials.divided_difference.handle;
-eno = packages.eno.eno_stencil.handle;
-enop = packages.eno.eno_stencil_periodic.handle;
+
+from labtools input_schema;
+from speclab.newton_polynomials divided_difference;
+[eno, enop] = from_as('eno', 'eno_stencil', 'eno_stencil_periodic');
+
+opt = input_schema(inputs, defaults, [], varargin{:});
 
 % Force column vectors:
 x = x(:);
@@ -28,7 +29,7 @@ if opt.periodic
 end
 
 if opt.periodic
-  [stencil, stencil_periodicity] = enop(x,y,opt.interval, 'k', opt.k);
+  [stencil, stencil_periodicity,r] = enop(x,y,opt.interval, 'k', opt.k);
   interval = opt.interval;
   xmax = interval(2); xmin = interval(1);
   % Compute x values
@@ -42,7 +43,7 @@ if opt.periodic
   XInput(inds) = xmin - (xmax - XInput(inds));
   eno_info.stencil_periodicity = stencil_periodicity;
 else
-  stencil = eno(x,y,'k',opt.k);
+  [stencil,r] = eno(x,y,'k',opt.k);
   stencil = stencil(1:end-1,:);
 
   XInput = x(stencil);
@@ -56,5 +57,6 @@ else
   eno_info.dd = divided_difference(XInput.',y(stencil.'));
 end
 
+eno_info.r = r;
 eno_info.stencil = stencil;
 eno_info.XInput = XInput;
