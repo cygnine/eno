@@ -30,11 +30,13 @@ function[stencil,r,indicator] = eno_stencil(x,y,varargin)
 %     and stencil(2:end,:) is the same but using the right-hand point of the
 %     cell. 
 
-global packages
-cm = packages.labtools;
-fd = packages.finite_difference;
+persistent input_schema difference_stencil
+if isempty(input_schema)
+  from labtools import input_schema
+  from finite_difference import difference_stencil
+end
 
-opt = cm.input_schema({'k'}, {3}, [],varargin{:});
+opt = input_schema({'k'}, {3}, [],varargin{:});
 k = opt.k;
 
 n = length(x);
@@ -111,6 +113,6 @@ else
   r = (PositiveCount-NegativeCount+1)/2;
 end
 
-[stencil] = fd.difference_stencil(n,k,'r',r);
+[stencil] = difference_stencil(n,k,'r',r);
 
 indicator = 1;

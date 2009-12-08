@@ -5,4 +5,4 @@ function[eno] = init__()
 
 eno = recurse_files(pwd);
 eno.debug = matlab_import('debug');
-eno.sceno = matlab_import('sceno');
+eno.speno = matlab_import('speno');

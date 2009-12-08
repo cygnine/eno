@@ -12,9 +12,13 @@ function[eno_info] = eno_setup(x,y,varargin)
 inputs = {'k', 'interval', 'periodic'};
 defaults = {3, false, false};
 
-from labtools input_schema;
-from speclab.newton_polynomials divided_difference;
-[eno, enop] = from_as('eno', 'eno_stencil', 'eno_stencil_periodic');
+persistent input_schema divided_difference eno enop
+if isempty(input_schema);
+  from labtools import input_schema;
+  from speclab.newton_polynomials import divided_difference;
+  from eno import eno_stencil as eno
+  from eno import eno_stencil_periodic as enop
+end
 
 opt = input_schema(inputs, defaults, [], varargin{:});
 

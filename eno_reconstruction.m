@@ -16,18 +16,22 @@ function[p] = eno_reconstruction(x,y,varargin)
 %     The basis_representation for p is the Jacobi polynomial basis of class
 %     (alpha,beta).
 
-global packages;
+persistent strict_inputs repnodes eno enop gq
+if isempty(strict_inputs)
+  from labtools import strict_inputs
+  from piecewise_interpolation.grid_tools import replicate_local_nodes as repnodes
+  from speclab.orthopoly1d.jacobi.quad import gauss_quadrature as gq
+  from eno import eno_interpolant as eno
+  from eno import eno_interpolant_periodic as enop
+end
+
 inputs = {'k', 'alpha', 'beta', 'interval'};
 defaults = {3, 0, 0, []};
-opt = packages.labtools.input_schema(inputs, defaults, [], varargin{:});
-repnodes = packages.piecewise_interpolation.grid_tools.replicate_local_nodes;
-eno = packages.eno.eno_interpolant;
-enop = packages.eno.eno_interpolant_periodic;
+opt = strict_inputs(inputs, defaults, [], varargin{:});
 
 x = x(:);
 y = y(:);
 
-gq = packages.speclab.orthopoly1d.jacobi.quad.gauss_quadrature.handle;
 [r,w] = gq(opt.k+1,'alpha',opt.alpha, 'beta', opt.beta);
 
 if isempty(opt.interval) % No periodicity
